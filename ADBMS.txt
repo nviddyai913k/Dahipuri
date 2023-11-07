@@ -1,0 +1,558 @@
+ADBMS
+
+1. Horizontal Fragmentation.
+
+create database db1;
+create database db2;
+show databases;
+
+use db1;
+create table employee(empid int primary key not null, ename varchar(20) not null, address varchar(20) not null, designation varchar(20) not null, salary int not null);
+create table worker(empid int primary key not null, ename varchar(20) not null, address varchar(20) not null, designation varchar(20) not null, salary int not null);
+show tables;
+
+use db2;
+create table officer(empid int primary key not null, ename varchar(20) not null, address varchar(20) not null, designation varchar(20) not null, salary int not null);
+show tables;
+
+use db1;
+
+delimiter $$
+create trigger t01
+after insert on employee
+for each row
+begin
+if new.salary<=10000 then 
+	insert into worker values(new.empid, new.ename, new.address, new.designation, new.salary);
+else
+	insert into db2.officer values(new.empid, new.ename, new.address, new.designation, new.salary);
+end if;
+end$$
+
+use db1;
+
+insert into employee values(101, 'alex', 'mumbai', 'worker', 3000);
+insert into employee values(102, 'hayden', 'delhi', 'officer', 12000);
+insert into employee values(103, 'felicity', 'mumbai', 'officer', 13000);
+insert into employee values(104, 'maxwell', 'calcutta', 'worker', 9000);
+insert into employee values(105, 'keith', 'chennai', 'officer', 6700);
+insert into employee values(106, 'nathan', 'mumbai', 'worker', 5000);
+insert into employee values(107, 'mary', 'delhi', 'officer', 11000);
+insert into employee values(108, 'samantha', 'hyderabad', 'worker', 6000);
+insert into employee values(109, 'gary', 'calcutta', 'worker', 7000);
+insert into employee values(110, 'olivia', 'hyderabad', 'officer', 14000);
+
+(Checking Triggers)
+select * from employee;
+
+select * from db1.worker;
+
+select * from db2.officer;
+
+(Executing the Queries)
+i. select * from employee;
+
+ii. select from db1.worker;
+
+iii. select * from db2.officer;
+
+iv. select salary from db1.employee;
+
+v. select ename, empid from db1.employee where salary > 10000;
+
+vi. select * from db1.employee where empid=104;
+
+vii. select * from db1.employee where designation='officer';
+
+
+2. Vertical Fragmentation.
+
+create database prac2_db1;
+create database prac2_db2;
+
+show databases;
+
+use prac2_db2;
+
+create table patient(pid int primary key, pname varchar(30) not null, paddress varchar(30) not null, phone int not null, email varchar(30), religion varchar(30), bno int, w_no int, doc_no int, service varchar(30)); 
+
+create table patient_personal_details(pid int primary key, pname varchar(30) not null, paddress varchar(30) not null, phone int not null, email varchar(30), religion varchar(30));
+
+use prac2_db1;
+
+create table patient_official_details(pid int primary key, bno int, w_no int, doc_no int, service varchar(30));
+
+use prac2_db2;
+
+desc patient;
+delimiter $$
+create trigger tg2
+after insert on patient
+for each row
+begin 
+insert into prac2_db2.patient_personal_details
+values(new.pid, new.pname, new.paddress, new.phone, new.email, new.religion);
+insert into prac2_db1.patient_official_details
+values(new.pid, new.bno, new.w_no, new.doc_no, new.service);
+end$$
+
+insert into patient values
+(101, 'milton', 'mumbai', 87652, 'mil23ton@gmail.com', 'christian', 12, 23, 201, 'optic');
+insert into patient values
+(102, 'noah', 'hyderabad', 98982, 'no_ah@gmail.com', 'muslim', 15, 22, 202, 'neuro');
+insert into patient values
+(103, 'hannah', 'chennai', 82823, 'hannah@gmail.com', 'muslim', 10, 23, 201, 'optic'); 
+insert into patient values
+(104, 'james', 'mumbai', 93902, 'james@gmail.com', 'atheist', 11, 23, 203, 'ortho');
+insert into patient values
+(105, 'fred', 'delhi', 82422, 'fred@gmail.com', 'christian', 12, 23, 204, 'dentist');
+insert into patient values
+(106, 'samira', 'mumbai', 87652, 'sam@gmail.com', 'muslim', 18, 23, 205, 'pedriatic');
+insert into patient values
+(107, 'seema', 'delhi', 83352, 'seema@gmail.com', 'hindu', 16, 23, 203, 'ortho');
+insert into patient values
+(108, 'jasmine', 'chandigarh', 86252, 'jasmine@gmail.com', 'sikh', 12, 23, 205, 'pedriatic');
+insert into patient values
+(109, 'shyam', 'calcutta', 24252, 'shyam@gmail.com', 'hindu', 13, 23, 202, 'neuro');
+insert into patient values
+(110, 'zahid', 'mumbai', 82212, 'zahid@gmail.com', 'muslim', 32, 23, 204, 'dentist');
+
+(Checking Triggers)
+select * from patient;
+
+select * from prac2_db2.patient_personal_details;
+
+select * from prac2_db1.patient_official_details;
+
+(Executing the Queries)
+i. select * from prac2_db1.patient_official_details;
+
+ii. select * from patient where phone is not null;
+
+iii. select * from prac2_db1.patient_official_details where pid is not null;
+
+iv. select * from prac2_db1.patient_official_details;
+
+v. select p.pname, p.paddress, o.bno, o.w_no, o.service
+from prac2_db2.patient_personal_details p, prac2_db1.patient_official_details o
+where p.pid = o.pid and doc_no=203;
+
+vi. select p.pname, p.paddress, o.bno, o.w_no, o.service
+from prac2_db2.patient_personal_details p, prac2_db1.patient_official_details o
+where p.pid=o.pid and o.service = 'pedriatic';
+
+vii. select count(*) as "Total number of Patients" from prac2_db2.patient_personal_details;
+
+viii. select p.pname, p.paddress, o.bno, o.w_no, o.service
+from prac2_db2.patient_personal_details p, prac2_db1.patient_official_details o
+where p.pid=o.pid and p.paddress='mumbai';
+
+
+3. Creating Replica of Database.
+
+create database prac3_db1;
+create database prac3_db2;
+
+use prac3_db1;
+
+create table reservation(bkid integer primary key not null, 
+customer_name varchar(20) not null,
+destination varchar(20) not null, 
+class varchar(20) not null,
+cost float not null);
+
+use prac3_db2;
+
+create table reservebook as select * from prac3_db1.reservation;
+
+use prac3_db1;
+
+delimiter $$
+create trigger t1
+after insert on reservation
+for each row
+begin
+insert into prac3_db2.reservebook values (new.bkid, new.customer_name,new.destination,new.class, new.cost);
+end;
+$$
+
+delimiter $$
+create trigger t2
+after update on reservation
+for each row
+begin
+update prac3_db2.reservebook
+set
+customer_name=new.customer_name,
+destination=new.destination,
+class=new.class,
+cost=new.cost where bkid=old.bkid;
+end;
+$$
+
+delimiter $$
+create trigger t3
+after delete on reservation
+for each row
+begin
+delete from prac3_db2.reservebook where bkid=old.bkid;
+end;
+$$
+
+use prac3_db1;
+
+insert into reservation values(201,'Hia','mumbai','second',5000);
+insert into reservation values(202,'Dia','New York','First',10000);
+insert into reservation values(203,'Mia','Canada','First',8200);
+insert into reservation values(204,'Sia','New York','First',10000);
+insert into reservation values(205,'Dia','mumbai','second',5000);
+insert into reservation values(206,'Ola','New York','First',10000);
+insert into reservation values(207,'Frank','Canada','First',8200);
+insert into reservation values(208,'Pedro','New York','First',10000);
+insert into reservation values(209,'Mankia,'New York','second',1000);
+insert into reservation values(210,'Lola,'Germany','First','12000');
+
+select * from reservation;
+
+use prac3_db2;
+select * from reservebook;
+
+use prac3_db1;
+-- disable safe update mode
+SET SQL_SAFE_UPDATES=0;
+-- execute update statement
+update reservation set customer_name='Priya' where bkid=203;
+-- enable safe update mode
+SET SQL_SAFE_UPDATES=1;
+
+select * from reservation;
+
+select * from prac3_db2.reservebook;
+
+use prac3_db1;
+-- disable safe update mode
+SET SQL_SAFE_UPDATES=0;
+-- execute delete statement
+delete from reservation where bkid=201;
+-- enable safe update mode
+SET SQL_SAFE_UPDATES=1;
+
+select * from reservation;
+
+select * from prac3_db2.reservebook;
+
+i. select * from prac3_db1.reservation where destination='mumbai';
+select * from prac3_db2.reservebook where destination='mumbai';
+
+ii. select * from prac3_db1.reservation where class='first';
+select * from prac3_db2.reservebook where class='first';
+
+iii. select * from reservation where cost between 2500 and 5000;
+select * from prac3_db2.reservebook where cost between 2500 and 5000;
+
+iv. select sum(cost) 'Total Fares of the Tikets' from reservation;
+select sum(cost) 'Total Fares of the Tikets' from prac3_db2.reservebook;
+
+v. select count(class) 'total no. of tickets booked under second class' from reservation where class='second';
+select count(class) 'total no. of tickets booked under second class' from prac3_db2.reservebook where class='second'; 
+
+
+4. OODBMS Application.
+
+create or replace type address_type1 as object(pincode number(5), street char(20), state varchar(50), no number(4));
+
+create or replace type branch_type as object(address address_type1, phone1 integer, phone2 integer);
+
+create or replace type author_type as object(name varchar(32), address address_type1);
+
+create or replace type branch_table_type as table of branch_type;
+
+create or replace type publisher_type as object(name varchar(32), address address_type1, branches branch_table_type);
+
+create or replace type author_list_type as varray(10) of ref author_type;
+
+create table authors of author_type;
+
+create table books(title varchar2(50), yr varchar2(30), published_by ref publisher_type, authors author_list_type);
+
+create table publishers of publisher_type nested table branches store as branch_table;
+
+insert into authors values('sangol',address_type1(700, 'dalal street', 'mumbai,maharashtra',1));
+
+insert into authors values('A.K. Mehta',address_type1(7006, 'dalal street', 'mumbai,maharashtra',1005));
+
+insert into authors values('Ramakrishna',address_type1(8002, 'Takur street', 'pune,maharashtra',1006));
+
+insert into publishers values('Raj', address_type1(4002, 'park street', 'mumbai,maharashtra', 03), branch_table_type(branch_type(address_type1(5002, 'pali street', 'mumbai,maharashtra', 03), 2340, 6896)));
+
+insert into publishers values('Iqra', address_type1(4002, '`jewels street', 'mumbai,maharashtra', 07), branch_table_type(branch_type(address_type1(5472, 'gore street', 'mumbai,maharashtra', 08), 7845, 4785)));
+
+insert into publishers values('Krish', address_type1(4002, 'lovely street', 'mumbai,maharashtra', 09), branch_table_type(branch_type(address_type1(9658, 'king street', 'mumbai,maharashtra', 01), 2140, 3456)));
+
+insert into books select 'IP', '28-may-1983', ref(PUB), author_list_type(ref(aut)) from publishers PUB, authors AUT where PUB.name='Raj' AND AUT.name='A.K. Mehta';
+
+select title from books;
+
+select title,yr from books;
+
+select B.title, B.yr, B.published_by.name from books B where B.title='IP'; 
+
+select A.name from authors A, publishers P where A.address.state = P.address.state;
+
+select title from books B where 2 >= (select count(*) from table(B.authors));
+
+select P.name from publishers P, table (P.branches) group by P.name having count(*)> = all (select count(*)from publishers P, table(P.branches) group by name);
+
+select title from authors A, books B, table (B.authors) V where V.column_value = ref(A) group by title having count(*)  = 1;
+
+
+5. XML Database
+
+create table emp_xml(dept_id number(4),employee_spec XMLtype);
+
+insert into emp_xml values(1,xmltype( 
+    '<emp id ="1"> 
+    <name>Jim</name> 
+    <email>jim@gmail.com</email> 
+    <acc_no>1234</acc_no> 
+    <mgr_mail>rox_mgr@hotmail.com</mgr_mail> 
+    <doj>12/12/2018</doj> 
+    </emp>'))
+
+insert into emp_xml values(1,xmltype( 
+    '<emp id ="2"> 
+    <name>Fred</name> 
+    <email>fred@gmail.com</email> 
+    <acc_no>4321</acc_no> 
+    <mgr_mail>fil_mgr@hotmail.com</mgr_mail> 
+    <doj>14/01/2018</doj> 
+    </emp>'))
+
+insert into emp_xml values(1,xmltype( 
+    '<emp id ="3"> 
+    <name>Keni</name> 
+    <email>keni@gmail.com</email> 
+    <acc_no>7451</acc_no> 
+    <mgr_mail>kenni_mgr@hotmail.com</mgr_mail> 
+    <doj>04/12/2018</doj> 
+    </emp>'))
+    
+insert into emp_xml values(1,xmltype( 
+    '<emp id ="4"> 
+    <name>Sam</name> 
+    <email>Sam@gmail.com</email> 
+    <acc_no>8412</acc_no> 
+    <mgr_mail>sam_mgr@hotmail.com</mgr_mail> 
+    <doj>13/05/2017</doj> 
+    </emp>'))
+    
+insert into emp_xml values(1,xmltype( 
+    '<emp id ="5"> 
+    <name>Neil</name> 
+    <email>neil@gmail.com</email> 
+    <acc_no>4512</acc_no> 
+    <mgr_mail>neil_mgr@hotmail.com</mgr_mail> 
+    <doj>23/01/2018</doj> 
+    </emp>'))
+    
+insert into emp_xml values(2,xmltype( 
+    '<emp id ="6"> 
+    <name>Oggy</name> 
+    <email>oggy@gmail.com</email> 
+    <acc_no>4174</acc_no> 
+    <mgr_mail>0ggy_mgr@hotmail.com</mgr_mail> 
+    <doj>14/03/2018</doj> 
+    </emp>'))
+    
+insert into emp_xml values(2,xmltype( 
+    '<emp id ="7"> 
+    <name>Jack</name> 
+    <email>jack@gmail.com</email> 
+    <acc_no>6544</acc_no> 
+    <mgr_mail>jack_mgr@hotmail.com</mgr_mail> 
+    <doj>23/07/2018</doj> 
+    </emp>'))
+    
+insert into emp_xml values(2,xmltype( 
+    '<emp id ="8"> 
+    <name>Vinne</name> 
+    <email>vinne@gmail.com</email> 
+    <acc_no>4174</acc_no> 
+    <mgr_mail>vin_mgr@hotmail.com</mgr_mail> 
+    <doj>14/03/2018</doj> 
+    </emp>'))
+    
+insert into emp_xml values(2,xmltype( 
+    '<emp id ="9"> 
+    <name>Orange</name> 
+    <email>orange@gmail.com</email> 
+    <acc_no>4174</acc_no> 
+    <mgr_mail>0rgii_mgr@hotmail.com</mgr_mail> 
+    <doj>14/03/2018</doj> 
+    </emp>'))
+
+insert into emp_xml values(2,xmltype( 
+    '<emp id ="10"> 
+    <name>Peter</name> 
+    <email>peter@gmail.com</email> 
+    <acc_no>1368</acc_no> 
+    <mgr_mail>rox_mgr@hotmail.com</mgr_mail> 
+    <doj>14/02/2018</doj> 
+    </emp>'))
+
+select dept_id,e.employee_spec.getclobval() from emp_xml e;
+
+select e.employee_spec.extract('//name/text()').getStringVal() "emp_name" from emp_xml e;
+
+select e.employee_spec.extract('//acc_no/text()').getStringVal() "acc_no" from emp_xml e;
+
+select e.employee_spec.extract('//name/text()').getStringVal() 
+"name",e.employee_spec.extract('//acc_no/text()').getStringVal() 
+"acc_no",e.employee_spec.extract('//email/text()').getStringVal() 
+"email" from emp_xml e;
+
+update emp_xml e set employee_spec=XMLtype('<emp id="4">
+  <name>Tom</name>
+  <email>tom@gmail.com</email>
+  <acc_no>8412</acc_no>
+  <mgr_mail>tom_mgr@hotmail.com</mgr_mail>
+  <doj>13/05/2017</doj>
+    <update>This is the updated record</update>
+</emp>')
+
+select dept_id,e.employee_spec.getclobval() from emp_xml e;
+
+delete from emp_xml e where e.employee_spec.extract('//acc_no/text()').getStringVal()=1234;
+
+select e.employee_spec.extract('//name/text()').getStringVal() "emp_name" from emp_xml e;
+
+
+6. Active Database Application.
+
+create database p_6;
+
+use p_6;
+
+create table employee(eno int primary key not null, 
+ename varchar(30) not null, hrs int not null, pn int);
+
+create table project(pname varchar(30) not null, 
+pn int not null primary key, thrs int);
+
+insert into project values('java', 1, 0);
+insert into project values('python', 2, 0);
+insert into project values('ruby', 3, 0);
+insert into project values('swift', 4, 0);
+insert into project values('sql', 5, 0);
+
+select * from project;
+
+delimiter $$
+create trigger total_hours
+after insert on employee
+for each row
+begin
+if new.pn is not null
+then 
+update project
+set 
+thrs = thrs+new.hrs
+where pn=new.pn;
+end if;
+end$$
+
+insert into employee values (001, 'henry', 3,3);
+insert into employee values (002, 'alec', 4,2);
+insert into employee values (003, 'wiley', 3,4);
+insert into employee values (004, 'dan', 5,5);
+insert into employee values (005, 'sarah', 4,3);
+
+select * from employee;
+
+select * from project;
+
+delimiter $$
+create trigger total_hours1
+after update on employee
+for each row
+begin
+if new.pn is not null
+then
+update project
+set
+thrs = thrs+new.hrs-old.hrs
+where pn=new.pn;
+end if;
+end$$
+
+update employee set hrs=10 where eno=2;
+
+select * from employee;
+
+
+7. Creating Temporal Database.
+
+create table employees
+(accno int primary key, ename varchar(30), recrudate timestamp (0), retdate timestamp (0));
+
+insert into employees values (1, 'gina', to_timestamp ('4-10-2010 13:05:45', 'dd-mm-yyyy hh24:mi:ss'),
+to_timestamp('15-10-2020 09:15:12', 'dd-mm-yyyy hh24:mi:ss'));
+
+insert into employees values (2, 'tina', to_timestamp ('14-11-2010 13:05:45', 'dd-mm-yyyy hh24:mi:ss'),
+to_timestamp('25-02-2020 09:15:12', 'dd-mm-yyyy hh24:mi:ss'));
+
+select * from employees;
+
+select * from employees where recrudate=to_timestamp('14-11-2010 13:05:45', 'dd-mm-yyyy hh24:mi:ss');
+
+select * from employees where retdate=to_timestamp('15-10-2020 09:15:12', 'dd-mm-yyyy hh24:mi:ss');
+
+create table shares
+(name varchar(20), no int, price int, transtime timestamp(0));
+
+insert into shares values ('horizon Itd', 50,112, to_timestamp('10-02-2012 09:05:45', 'dd:mm:yyyy hh24:mi:ss'));
+insert into shares values ('Infosys Itd', 45,132, to_timestamp('01-03-2011 09:05:45', 'dd:mm:yyyy hh24:mi:ss'));
+insert into shares values ('hindtech Itd', 45,92, to_timestamp('01-03-2011 09:05:45', 'dd:mm:yyyy hh24:mi:ss'));
+insert into shares values ('infotech Itd', 51,102, to_timestamp('10-02-2011 09:05:45', 'dd:mm:yyyy hh24:mi:ss'));
+
+select * from shares;
+
+select name from shares where (no * price)>100 and transtime = to_timestamp('01-03-2011 09:05:45','dd:mm:yyyy hh24:mi:ss');
+
+select name from shares where price = (select max(price) from shares where transtime=to_timestamp('01-03-2011 09:05:45','dd:mm:yyyy hh24:mi:ss'));
+
+
+8. Multimedia Database.
+
+create table employee
+(employee_id number(10),
+firstname varchar2(20),
+lastname varchar2(20),
+email varchar2(25),
+hire_date date,
+job_id varchar2(20),
+salary number(9),
+resume clob,
+picture blob);
+
+insert into employee values (1, 'Pratik', 'Doshi', 'pratikdoshi@yahoo.com', '1 jul 2005', 'Project manager', 12000, EMPTY_CLOB(), NULL);
+
+select * from employee;
+
+update employee set resume='Date of Birth: 26 June 1986',
+picture=EMPTY_BLOB()
+where employee_id=1;
+
+Declare lobloc CLOB;
+text varchar2(32767):='Resigned:5 August 2006';
+amount NUMBER;
+offset number;
+BEGIN    
+SELECT resume into lobloc
+from employee
+where employee_id=1 for update;
+offset:=DBMS_LOB.GETLENGTH(lobloc)+2;
+amount:=length(text);
+DBMS_LOB.WRITE(lobloc, amount, offset, text);
+COMMIT;
+END;
