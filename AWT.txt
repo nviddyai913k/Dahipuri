@@ -1,0 +1,711 @@
+AWT
+
+1. Multiple Filters.
+
+html:
+
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>
+            Multiple filters in Angular Js
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="./script1.js"></script> 
+    </head>
+    <body ng-app="myModule">
+        <div ng-controller="myController">
+            <input type="text" placeholder="Search name" ng-model="searchText.name"/>
+            <input type="text" placeholder="Search city" ng-model="searchText.city"/> 
+            <input type="checkbox" ng-model="exactMatch"/>Exact Match 
+            <br/><br/>
+            <table>
+                <thead> 
+                    <tr> 
+                        <th>Name</th> 
+                        <th>Gender</th> 
+                        <th>Salary</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="employee in employees | filter:searchText:exactMatch"> 
+                        <td>{{employee.name}}</td> 
+                        <td>{{employee.gender}}</td> 
+                        <td>{{employee.salary}}</td> 
+                        <td>{{employee.city}}</td>
+                    </tr> 
+                </tbody> 
+            </table> 
+        </div> 
+    </body>
+</html>
+
+JS:
+
+var app=angular
+.module("myModule",[]) 
+.controller("myController",function($scope){ 
+    
+    var employees=[
+        {name:"Ben",gender:"Male",salary:55000,city:"London"},
+        {name:"Sara",gender:"Female",salary:95000,city:"Chennai"},
+        {name:"Mark",gender:"Male",salary:65000,city:"America"},
+        {name:"Lora",gender:"Female",salary:45000,city:"USA"},
+        {name:"Tad",gender:"Male",salary:65000,city:"America"},
+        {name:"Jerry",gender:"Male",salary:45000,city:"USA"},
+    ];
+    $scope.employees=employees;
+}); 
+
+
+2. Ng-Repeat in Angular JS.
+
+html:
+
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="script2.js"></script>
+    </head>
+    <body ng-app="myModule">
+        <h2>ng-repeat directive in Angular JS</h2>
+        <div ng-controller="myController">
+            <ul style="color: firebrick; font-size: 25px;">
+                <li ng-repeat="food in Menu">
+                    {{food.type}}
+                    <ul style="color: rgb(0, 0, 0); font-size: 20px;">
+                        <li ng-repeat="dish in food.items">
+                        {{dish.name}}</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
+
+JS:
+
+var myApp=angular.module("myModule",[]);
+myApp.controller("myController",function($scope)
+{
+    var Menu=[
+        {
+            type:"Appetizer",
+            items:[
+                {name:"Paneer Chilly"},
+                {name:"Paneer Crispy"},
+                {name:"Paneer Reshmi Kabab"},
+                {name:"Hara Bara Kebab"}
+            ]
+        },
+        {
+            type:"Main Course",
+            items:[
+                {name:"Butter Paneer"},
+                {name:"Paneer Afgani"},
+                {name:"Paneer Tandoori Masala"},
+                {name:"Special Tava Veg"}
+            ]
+        },
+        {
+            type:"Breads",
+            items:[
+                {name:"Tandoori Butter Naan"},
+                {name:"Butter Kulcha"},
+                {name:"Special Garlic Butter Cheese Naan"},
+                {name:"Pulke"}
+            ]
+        },
+        {
+            type:"Chinese",
+            items:[
+                {name:"Mushroom Fried Rice"},
+                {name:"Burnt garlic Noodles"},
+                {name:"Paneer Chilly Gravy"},
+                {name:"Schezwan Manchurian Gravy"}
+            ]
+        },
+        {
+            type:"Desserts",
+            items:[
+                {name:"Gulab Jamun"},
+                {name:"Kulfi Falooda"},
+                {name:"Chocolate Paan"},
+                {name:"Ras Malai"}
+            ]
+        },
+    ];
+    $scope.Menu=Menu;
+});
+
+
+3. Ascending & Descending Order in Angular JS.
+
+html:
+
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="script3.js"></script>
+</head>
+<body ng-app="myModule">
+    <div ng-controller="myController">
+        Sort By:
+        <select ng-model="sortColumn">
+            <option value="name">Name ASC</option>
+            <option value="+dateOfBirth">Date of Birth ASC</option>
+            <option value="+gender">Gender ASC</option>
+            <option value="-salary">Salary DESC</optin>
+            </select><br/>
+            <table>
+                <thead><tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Salary</th>
+                    <th>City</th></tr>
+                </thead>
+                <tr ng-repeat="employee in employees | orderBy:sortColumn">
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.dateOfBirth|date:"dd/MM/yyyy"}}</td>
+                    <td>{{employee.gender}}</td>
+                    <td>{{employee.salary}}</td>
+                    <td>{{employee.city}}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+
+JS:
+
+var app = angular.module("myModule",[]).controller("myController",function($scope){
+    var employees=[
+        {name:"Ben",dateOfBirth:new Date("November 23,1953"),gender:"Male",salary:550000,city:"Mumbai"},
+        {name:"Sia",dateOfBirth:new Date("November 22,1953"),gender:"Female",salary:950000,city:"Navi Mumbai"},
+        {name:"Den",dateOfBirth:new Date("November 13,1953"),gender:"Male",salary:450000,city:"Pune"},
+        {name:"Sen",dateOfBirth:new Date("November 21,1953"),gender:"Male",salary:750000,city:"Hyderabad"},
+        {name:"Ten",dateOfBirth:new Date("November 31,1953"),gender:"Male",salary:850000,city:"Bangalore"}];
+    $scope.employees=employees;
+    $scope.sortColumn="name";
+});
+
+
+4. Sort by Table header in Angular JS.
+
+html:
+
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <style>
+        .arrow-up { 
+            width:0; 
+            height:0; 
+            border-left:5px solid transparent; 
+            border-right:5px solid transparent ; 
+            border-bottom:10px solid black;
+        } 
+        
+        .arrow-down {
+            width:0; 
+            height:0; 
+            border-left:5px solid transparent; 
+            border-right:5px solid transparent; 
+            border-top:10px solid black; 
+        } 
+        </style> 
+    </head> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+    <div ng-app="mymodule" ng-controller="myController">
+        <table border="1">
+            <thead> 
+                <tr> 
+                    <th ng-click="SortData('name')">Name<div ng-class="getSortClass('name')" ></div></th>
+                    <th ng-click="SortData('dateOfBirth')">Date of Birth <div ng-class="getSortClass('dateOfBirth')" ></div></th>
+                    <th ng-click="SortData('Address')">Address<div ng-class="getSortClass('Address')" ></div></th>
+                    <th ng-click="SortData('Salary')">Salary<div ng-class="getSortClass('Salary')" ></div></th></tr>
+            </thead>
+            
+            <tbody>
+                <tr ng-repeat="employee in employees|orderBy:SortColumn:reverseSort">
+                    <td>{{employee.name | uppercase }}</td>
+                    <td>{{employee.dateOfBirth | date : "dd/MM/yyyy" }}</td>
+                    <td>{{employee.Address | lowercase }}</td>
+                    <td>{{employee.Salary | number :2 }}</td>
+                </tr>
+            </div>
+        </tbody>
+    </table>
+    
+    <script> 
+    var mypartone = angular 
+    .module("mymodule", [])
+    .controller("myController", function ($scope) { 
+        var employees = [ 
+            { name: "Akshay", dateOfBirth: new Date("July 21,1960"), Address: "Mumbai", Salary: "30000" },
+            { name: "Milind", dateOfBirth: new Date("July 20,1960"), Address: "Nashik", Salary: "19000" },
+            { name: "Raghvan", dateOfBirth: new Date("July 19,1960"), Address: "Pune", Salary: "25000" },
+            { name: "Hari", dateOfBirth: new Date("July 18,1960"), Address: "Navi Mumbai", Salary: "68000" }
+        ]; 
+        $scope.employees = employees; 
+        $scope.SortColumn = "name"; 
+        $scope.reverseSort = false;
+        $scope.SortData = function (column) { 
+            $scope.reverseSort = ($scope.SortColumn == column) ? !$scope.reverseSort : false; 
+            $scope.SortDate = column;
+        }
+        $scope.getSortClass = function (column)
+        {
+            if ($scope.SortColumn == column) {
+                return $scope.reverseSort ? 'arrow-down' : 'arrow-up'
+            }
+            return '';
+        }
+    });
+    </script>
+    </body>
+</html>
+
+
+5. Single Page Application / Angular JS Routing.
+
+html:
+
+<html>
+<head>
+    <title>Angular JS Views</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+</head>
+<body>
+    <h2> AngularJS Sample Application</h2>
+    <div ng-app ="mainApp">
+        <p><a href = "#addStudent">Add Student</a></p>
+        <p><a href = "#viewStudents">View Students</a></p>
+        <div ng-view></div>
+    <script type="text/ng-template"id="addStudent.htm">
+        <h2>Add Student</h2>
+        {{message}}
+    </script>
+    <script type = "text/ng-template" id = "viewStudents.htm">
+    <h2>ViewStudents</h2>
+    {{message}}
+    </script>
+    </div>
+    <script>
+    var mainApp = angular.module("mainApp",['ngRoute']);
+    mainApp.config(['$routeProvider',function($routeProvider){
+        $routeProvider
+        .when('/addStudent',{
+            templateUrl:'addStudent.htm',
+            controller:'AddStudentController'
+        })
+            .when('/viewStudents',{
+                templateUrl:'viewStudents.htm',
+                controller:'ViewStudentsController'
+            })
+            .otherwise({
+                redirectTo:'/addStudent'
+        });
+        }]);
+        mainApp.controller('AddStudentController',function($scope){
+            $scope.message="This page will be used to display add student form";
+        });
+        mainApp.controller('ViewStudentsController',function($scope){
+        $scope.message="This page will be used to display all the students";
+        });
+        </script>
+    </body>
+</html>
+
+
+6. Angular JS Validations to Validate them by using HTML form.
+
+html:
+
+<!DOCTYPE html>
+<html lang="en"> 
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <title>Validations</title>
+        
+        <style>
+        body {
+            font-family : Arial,Helvetica,sans-serif;
+        } 
+        h3 { 
+            color : blue;
+        } 
+        </style> 
+        </head> 
+        <body ng-app=""> 
+            <h3>Angular Js Form Validation</h3>
+            <form name="form1"> 
+                <p>Full Name : <input type="text" name="fullname" ng-model ="fullname"required></br>
+                    <span ng-show="form1.fullname.$invalid" style="color: red">*The name is required</span></p> 
+                    <p> Date : <input type="date" ng-model="date" max="2022-12-04"required></input></p> 
+                    <p> Gender : <br> 
+                        <input type="radio" id="html" name="gender" value="MALE" ng-model="gender" required>
+                        <label for="male">Male</label><br> 
+                        <input type="radio" id="css" name="gender" value="FEMALE" ng-model="gender" required>
+                        <label for="female">Female</label><br>
+                        <span ng-show="form1.gender.$invalid" style="color: red">*Gender is required</span></p>
+                    <p>Mobile : <input type="number" name="mobile" ng-model ="mobile" onkeypress="if(this.value.length==10) return false;" required ></br>
+                        <span ng-show="form1.mobile.$invalid" style="color: red">*Field does not contain valid mobile number</span></br></p>
+                    <p>Email Address : <input type="email" name="useraddress" ng-model ="useraddress" required></br>
+                        <span ng-show="form1.useraddress.$invalid" style="color: red">*Field does not contain any valid email address</span></br></p>
+                        <input type="submit" value="submit">
+                    </form> 
+                    <p>{{form1.$submitted}}</p> 
+        </body> 
+</html>
+
+
+7. Angular Validation and Custom validations.
+
+html:
+
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head>
+        <meta charset="UTF-8">
+        <title>Example - AngularJS Form Custom Validation</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        
+        <script>
+        var app=angular.module('myApp',[]);
+        app.directive('myDirective1',function(){
+            return{ 
+                require:'ngModel',
+                link:function(scope,element,attr,mCtrl){
+                    function myValidation1(value){
+                        if(value.indexOf("a")>-1||value.indexOf("A")>-1){
+                            mCtrl.$setValidity('charE',true);
+                        }
+                        else{
+                            mCtrl.$setValidity('charE',false); 
+                        }
+                        return value;
+                    }
+                    mCtrl.$parsers.push(myValidation1);
+                }
+            }
+        }); 
+        </script>
+    </head> 
+    
+    <style> 
+    *{
+        font-family:'arial' 
+    } 
+    </style> 
+    
+    <body ng-app="myApp"> 
+        <p>Student Enrollment Form<br>Please provide details:</p>
+        <form name="myform">
+            <p> Full Name:<input name="fullname" ng-model="fullname" required> 
+                <span ng-show="myform.fullname.$pristine && myform.fullname.$invalid" style="color: red">The name is required.</span></p>
+            <p>Birthday:<input type="date" name="birthday" ng-model="birthday" max="2023-11-10" required>
+                <span ng-show="myform.birthday.$pristine && myform.birthday.$invalid" style="color: red">The birthday is required.</span></p>
+            <p>Gender:<input type="radio" id="male" name="gender" value="male">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Female</label></p>
+            <p>Mobile:<input name="mobileNumber" ng-model="mobileNumber" type="number" inputmode="numeric" pattern="[0-9]{10}" required/>
+                <span ng-show="myform.mobileNumber.$invalid" style="color: red">Enter a valid mobile number.</span><br/>
+            <p>Email:<input name="emailaddress" ng-model="emailaddress" type="email" required> 
+                <span ng-show="myform.emailaddress.$invalid" style="color: red">Enter valid email address.</span><br/><br/>
+                <input type="submit" value="submit">
+        </form>
+    </body> 
+</html>
+
+8. Functional Components in React.
+
+React initial Steps for react
+I.Install Node JS on your system and set the environment for it. 
+II.Open Windows PowerShell as an administrator and type > set-executionpolicy remotesigned > Y(Yes).  
+III.Open Visual Studio Code > Click on Terminal and type > create-react-app practical8 (File named as practical8 will get created into Main Drive - C). 
+IV.Change directory > cd practical8. 
+V. Start your project > npm start.  
+
+index.js:
+
+import React from 'react'; 
+import ReactDOM from 'react-dom/client'; 
+
+function MyApp(){ 
+  return( 
+  <div>
+    Subjects:
+    <ul>
+      <li>Advanced Database Management Systems</li> 
+      <li>IT in Forensic Science</li>
+      <li>Advanced Web Technologies</li>
+      <li>Natural Language Processing</li>
+    </ul>
+  </div>
+  )
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<MyApp/>);
+
+9. Parent/Child Components in React.
+
+index.js:
+
+import React from 'react'; 
+import ReactDOM from 'react-dom/client';
+import Employee from './Employee';  
+import './index.css'; 
+
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+root.render(<Employee name='Sanket' salary='500000' dept='Development' head='head'/>);
+
+Employee.js:
+
+import React from 'react'; 
+import Department from './Department'; 
+function Employee(props){ 
+    return( 
+    <div> 
+        <h2><b> Employee Details</b></h2> 
+        <p><b> Name :</b> {props.name} </p> 
+        <p><b> Salary :</b> {props.salary} </p>
+        <Department deptName={props.dept} deptHead={props.head}/>
+    </div> 
+    );
+}
+export default Employee
+
+Department.js:
+
+import React from 'react'; 
+function Department(props){
+    return( 
+    <div>
+        <p><b> Depatment Name:</b> {props.deptName} </p>
+        <p> <b> Department Head:</b> {props.deptHead} </p>
+    </div>
+    ); 
+} 
+export default Department;
+
+10. Styling in React with CSS Classes.
+
+App.js:
+
+import React from "react" 
+import ContactCard from "./ContactCard" 
+import styles from "./style.css"
+function App() { 
+  return (
+  <div className="contacts">
+    <ContactCard
+    contact={{name: "Mr. Whiskerson", imgUrl: "http://placekitten.com/300/200",
+    phone:"(212) 555-1234", email: "mr.whiskaz@catnap.meow"}}/>
+    
+    <ContactCard
+    contact={{name: "Fluffykins", imgUrl: "http://placekitten.com/400/200",
+    phone:"(212) 555-2345", email: "fluff@me.com"}}/>
+    
+    <ContactCard
+    contact={{name: "Destroyer", imgUrl: "http://placekitten.com/400/300", 
+    phone:"(212) 555-3456", email: "ofworlds@yahoo.com"}}/>
+    
+    <ContactCard
+    contact={{name: "Felix", imgUrl: "http://placekitten.com/200/200", 
+    phone:"(212) 555-4567", email: "thecat@hotmail.com"}}/>
+    
+    <ContactCard
+    contact={{name: "Alix", imgUrl: "http://placekitten.com/900/500", 
+    phone:"(212) 558-4897", email: "thealex@hotmail.com"}}/>
+  </div>
+  );
+}
+export default App;
+
+ContactCard.js:
+
+import React from "react"
+function ContactCard(props) { 
+    console.log(props)
+    return ( 
+    <div className="contact-card">
+        <img src={props.contact.imgUrl}/>
+        <h3>{props.contact.name}</h3>
+        <p>Phone: {props.contact.phone}</p>
+        <p>Email: {props.contact.email}</p>
+        </div>
+        )
+    } 
+ export default ContactCard;
+
+style.css:
+
+body {
+    margin: 0;
+    background-color: rgb(104, 254, 147);
+}
+.contacts { 
+    display: flex;
+    flex-wrap: wrap;
+}
+.contact-card {
+    flex-basis: 250px;
+    margin: 20px;
+}
+.contact-card > img {
+    width: 100%;
+    height: auto;
+}
+.contact-card > h3 {
+    text-align: center;
+} 
+.contact-card > p {
+    font-size: 12px;
+} 
+
+************************************************************************************************************************************
+MONGODB Practical
+
+CRUD Operations
+show dbs
+use mydb
+show dbs
+help
+show collections
+
+####CREATE AND INSERT​###
+user1={FName: "Test", LName: "User", Age:30, Gender: "M", Country: "US"}​
+user2={Name: "Test User", Age:45, Gender: "F", Country: "US"} 
+db.users.insert(user1)​
+db.users.insert(user2)
+show collections​
+show dbs
+db.users.find()
+
+####CREATING COLLECTIONS​####
+db.createCollection("users")
+####INSERTING BY EXPLICITLY SPECIFYING _ID​####
+db.users.insert({"_id":10, "Name": "explicit id"}) 
+db.users.find()
+
+####update####
+db.users.update({"Gender":"F"}, {$set:{"Country":"UK"}})​
+db.users.find({"Gender":"F"})​
+db.users.update({"Gender":"F"},{$set:{"Country":"UK"}},{multi:true})​
+
+####Delete####
+db.users.remove({"Gender":"M"})​
+db.users.remove({})​
+db.users.drop()​
+show collections​
+
+####Read####
+user1={FName: "Test", LName: "User", Age:30, Gender: "M", Country: "US"}​
+user2={Name: "Test User", Age:45, Gender: "F", Country: "US"}​
+db.users.insert(user1)​
+db.users.insert(user2)​
+for(var i=1; i<=20; i++) db.users.insert({"Name" : "Test User" + i, "Age": 10+i, "Gender" : "F", "Country" : "India"})​
+db.users.find()​
+
+####Selector####
+db.users.find({"Gender":"F"})​
+db.users.find({"Gender":"F", $or: [{"Country":"India"}]})​
+​db.users.find({"Gender":"F",$or:[{"Country":"India"},{"Country":"US"}]})
+db.users.find({"Gender":"F",$or:[{"Country":"India"}, {"Country":"US"}]}).count()
+
+####Projector####
+db.users.find({"Gender":"F"}, {"Name":1,"Age":1})
+
+####sort####
+db.users.find({"Gender":"F"}, {"Name":1,"Age":1}).sort({"Age":1})
+db.users.find({"Gender":"F"},{"Name":1,"Age":1}).sort({"Name":-1,"Age":1})
+
+####Limit####
+db.users.find({"Gender":"F",$or:[{"Country":"India"},{"Country":"US"}]}).limit(2)​
+
+####Skip####
+db.users.find({"Gender":"F",$or:[{"Country":"India"}, {"Country":"US"}]}).limit(2).skip(2)
+
+####Findone####
+db.users.findOne({"Gender":"F"}, {"Name":1,"Age":1})
+db.users.findOne()---for 1st record
+
+####Using Cursor####
+var c = db.users.find({"Country":"US"})​
+while(c.hasNext()) printjson(c.next())​
+
+####Explain#### 
+db.users.find({"Name":"Test User"}).explain("allPlansExecution")​
+
+####USING INDEXES​####
+for(i=0;i<200;i++){db.testindx.insert({"Name":"user"+i,"Age":Math.floor(Math.random()*120)})}​---inserting 200 records
+db.testindx.find({"Name":"user101"}).explain("allPlansExecution")-----finding record
+
+####Using Indexes####
+db.testindx.ensureIndex({"Name":1})---creating index
+db.testindx.find({"Name":"user101"}).explain("allPlansExecution")
+
+####COMPOUND INDEX​####
+db.testindx.ensureIndex({"Name":1, "Age": 1})
+db.testindx.find({"Name": "user5","Age":{"$gt":25}}).explain("allPlansExecution")
+
+####Unique Index####
+db.testindx.dropIndexes()​----dropping existing indexes
+db.testindx.ensureIndex({"Name":1},{"unique":true})​---create unique index
+db.testindx.insert({"Name":"uniquename"})​-----entering duplicate values
+db.testindx.insert({"Name":"uniquename"})​​-----error will come
+db.testindx.find({"Name":"uniquename"})
+
+#####using unique index combination####
+db.testindx.ensureIndex({"Name":1, "Age":1},{"unique":true})​
+db.testindx.insert({"Name":"usercit"})​
+db.testindx.insert({"Name":"usercit", "Age":30})​
+db.testindx.insert({"Name":"usercit", "Age":30})​​
+db.testindx.ensureIndex({"Name":1},{"unique":true, "dropDups":true})​----create new index & deletes duplicates
+
+####SYSTEM.INDEXES####
+db.testindx.getIndexes()---Returns created indexes
+
+####dropIndex####
+db.testindx.dropIndex({"Name":1})
+
+####REIndex####
+db.collectionname.reIndex()
+db.testindx.reIndex()
+
+####conditional operators####
+db.students.insert({Name:"S1",Age:25,Gender:"M",Class:"C1",Score:95})​
+db.students.insert({Name:"S2",Age:18,Gender:"M",Class:"C1",Score:85})​
+db.students.insert({Name:"S3",Age:18,Gender:"F",Class:"C1",Score:85})​ .....do same to add more records
+db.students.find()
+db.students.find({"Age":{"$lt":25}})
+db.students.find({"Age":{"$lte":25}})
+db.students.find({"Class":{"$in":["C1","C2"]}})
+db.students.find({"Class":{"$nin":["C1","C2"]}})
+db.students.find({$or:[{"Gender":"M","Class":{"$in":["C1","C2"]}}], "Age":{"$gte":25}})
+
+####regular Expressions####
+db.students.insert({Name:"Student1", Age:30, Gender:"M", Class: "Biology", Score:90})​
+db.students.insert({Name:"Student2", Age:30, Gender:"M", Class: "Chemistry", Score:90})​ .....do same to add more records
+db.students.find({"Name":/(St|Te)*/i, "Class":/(Che)/i})​
+
+####Map Reduce####
+var map = function(){emit(this.Gender,1);};​
+var reduce = function(key, value){return Array.sum(value);};​
+db.students.mapReduce(map, reduce, {out: "mapreducecount1"})​
+db.mapreducecount1.find()​
+
+####AGGREGATE()####
+db.students.aggregate({$group:{_id:"$Gender", totalStudent: {$sum: 1}}})​
+db.students.aggregate({$group:{_id:"$Class", AvgScore: {$avg: "$Score"}}})​
+
+ 
+
+
+
