@@ -428,7 +428,7 @@ html:
 React initial Steps for react
 I.Install Node JS on your system and set the environment for it. 
 II.Open Windows PowerShell as an administrator and type > set-executionpolicy remotesigned > Y(Yes).  
-III.Open Visual Studio Code > Click on Terminal and type > create-react-app practical8 (File named as practical8 will get created into Main Drive - C). 
+III.Open Visual Studio Code > Click on Terminal and type > npm install -g create-react-app > create-react-app practical8 (File named as practical8 will get created into Main Drive - C). 
 IV.Change directory > cd practical8. 
 V. Start your project > npm start.  
 
