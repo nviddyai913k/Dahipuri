@@ -1,0 +1,110 @@
+PRACTICAL NO 01: Analyse hard drives or smart phones using forensic tools
+ (Using Autopsy Tool) 
+Step 1: Download Autopsy
+Step 2: Add case details (suggested make one folder of CF Prac)
+Step 3: Add any file on which you want to investigate
+Step 4:  Configure ingest module 
+Step 5: click on keyword search
+Step 6: then click on advance & add the following or your own required 
+keywords 
+Step 7: you can click on add & add the following keywords
+Step 8: Click on finish 
+Step 9: Check the data 
+Step 10: Generate a report
+ 
+
+
+PRACTICAL NO 02: Detect OS, hostname, sessions and open ports through packet 
+sniffing. 
+(Tool used: Nmap) 
+Command Executed on Window command prompt
+Commands:
+
+systeminfo
+hostname
+netstat
+netstat -ano
+nmap -sA -T4 scanme.nmap.org
+ipconfig
+nmap -sA -T4 scanme.sies.org
+nslookup
+nmap -p23,113,139 scanme.nmap.org
+
+(Using tool who.is)
+ 
+Step1:Open the WHO.is website in browser
+Step2:Enter the website name and hit the “Enterbutton”. 
+website:-www.prestashop.com
+Step3:Show you information about www.prestashop.com
+
+
+PRACTICAL NO 03: Capture the physical memory of a computer and analyse artifacts in 
+memory. 
+
+USING FTK
+download AccessData's Forensic Toolkit-FTK
+
+1. start a new case
+2. Enter case details
+3. Enter Forensic Examinar Information
+4. select all case log options
+5. process to perform (select all)
+6. Data carving click ok
+7. In refine Case- Default include all items
+8. Next---Next---
+9.Add Evidence--Acquire Image of Drive--continue---evidence information--click ok
+10 NEXT---Finish
+
+
+PRACTICAL NO 04: Calculate the MD5 and SHA1 hashes 
+
+Download CrypTool-1.4.41
+
+Open tool – choose a file for encryption 
+– Goto Encrypt/Decrypt Tab & choose the algorithm
+
+
+PRACTICAL NO 05: Use tools to collect, preserve and reveal digital evidence without 
+compromising systems and data
+ (Toolused:FTKImager)
+select Source--Physical Drive---next 
+Source Drive Selection---finish
+Image Source--add--Raw--next--
+evidence item information--next
+select Image destination--image destination--select folder--filename--finish
+create Image--start
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+  
+
+ 
+
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
