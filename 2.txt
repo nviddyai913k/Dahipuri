@@ -1,0 +1,290 @@
+Practical No. 01 - Utilize the Nessus Vulnerability Scanner
+
+As Nessus is a paid tool, we will be using an alternative tool for vulnerability scanning.
+
+Tool Used for this practical is NIKTO.
+
+Step 1: Open Kali Linux VMware
+
+Step 2: Go to Terminal Write a command.
+$ nikto
+
+Step 3: Perform a vulnerability scanning for the target organization by writing IP address or host name.
+$ nikto -h siesascs.edu.in
+
+Step 4: Perform an SSL vulnerability scanning for the target organization by writing IP address or host name with -ssl
+$ nikto -h siesascs.edu.in -ssl
+
+
+
+
+
+Practical No. 02 - Implement Network Scanning
+
+A. Using Nmap commands
+
+Step 1: Open Kali Linux
+
+Step 2: Goto terminal
+Write a Command 
+$ nmap -h 
+
+Step 3: Perform a simple scan for the target organization by writing IP address or host name.
+$ sudo nmap siesascs.edu.in
+
+Step 4: Perform a TCP Null, FIN and XMAS scanning for the target organization by writing IP address or host name.
+$ sudo nmap -sN siesascs.edu.in
+
+Step 5: Perform a port scanning for the target organization by writing IP address or host name.
+$ nmap -p 1-1000 siesascs.edu.in
+-p: ports
+1-1000: 1 to 1000 port will be scanned by the above command
+
+
+B. Using Nmap Tool
+
+Step 1: Open Nmap tool in windows
+
+Step 2: Write a target ip address.
+
+Step 3: Select a scanning type from drop down list.
+
+Step 4: Click on scan.
+
+
+C. Using Window cmd
+
+Step 1: Check IP address of the machine
+>ipconfig
+
+Step 2: Check network status of the machine
+>netstat
+
+Step 3: Check network status of the machine
+>netstat -aon
+
+Step 4: Check complete system information of the machine.
+>systeminfo
+
+
+D. Using Kali Linux for DNS
+
+Using Kali Linux terminal
+$sudo nslookup
+>siesascs.edu.in
+
+
+E. Using Who.is
+
+Step1: Open the WHO.is website.
+
+Step 2: Enter the website name and hit the “Enter button”.
+
+Step 3: Show you information about organisation you mentioned.
+
+
+F. Using Kali Linux for netstat
+
+Step 1: Check ip address
+$ifconfig
+
+Step 2: Check network status for all
+$ sudo netstat -a
+
+Step 3: Check groups
+$ netstat -g
+
+Step 4: Check interface
+$ netstat -i
+
+Step 5: Check routing information
+$ netstat -r
+
+Step 6: For Help
+$ netstat -h
+
+
+G. Using Hping 3
+
+Step 1: Check ipaddress
+$ifconfig
+
+Step 2: Check different operation that can be performed by hping3.
+$hping3 -h
+
+Step 3: Scan 1 to 30 ports of the target system
+$sudo hping3 -8 1-30 -A siesascs.edu.in 
+$sudo hping3 -8 1-30 -A -V siesascs.edu.in 
+
+Step 4: Craft your own packet & sent it to attacker.
+$sudo hping3 -S siesascs.edu.in -p 80 -c 5
+
+Step 5: Scan 100 ports of the target system
+$sudo hping3 –scan 10-100 siesascs.edu.in
+$sudo hping3 –scan 10-100 -V siesascs.edu.in
+
+Step 6: Craft your own packet & time to live.
+$sudo hping3 -c 1 -S -p 80 –win 514 –ttl 60 siesascs.edu.in
+
+Step 7: Scan port number 4444
+$sudo hping3 -S -p 4444 siesascs.ed.u.in
+
+
+
+
+
+Practical No. 03 - Implement NET-BIOS Enumeration
+
+A. Using NBT Scan
+
+Step 1: Open Kali Linux 
+
+Step 2: Open terminal check IP address
+$ifconfig
+
+Step 3: Open Metasploit VMWare
+
+Step 4: Login using username & password.
+
+Step 5: Check IP address of Metasploit
+$ifconfig
+
+Step 6: Perform enumeration on Metasploit.
+$ nbtscan 192.168.40.131
+
+Step 7: Perform enumeration on Metasploit & dump all the packets.
+$ nbtscan 192.168.40.131 -d
+
+Step 8: Perform enumeration on Metasploit & check verbose.
+$ nbtscan 192.168.40.131 -vh
+
+Step 9: Perform enumeration on Metasploit & check verbose.
+$ nbtscan -h
+
+Step 10: Perform enumeration on your own Kali Linux
+$ nbtscan 192.168.40.130
+
+Step 11: Perform enumeration on telnet.
+$ telnet 192.168.40.131
+
+Step 13: Perform enumeration on telnet, write a port number.
+$ telnet 192.168.40.131 25
+
+
+B. Hyena
+Step 1: Open Hyena tool
+Step 2: Check all the files.
+
+
+C. Enumeration using Whatweb
+$sudo whatweb siesascs.edu.in
+d. Enumeration using homectl.
+$hostnamectl
+
+
+
+
+
+Practical No. 04 - Implement SMNP Enumeration
+
+A. Using Hostnamectl
+$hostnamectl
+
+B. Using Net View
+Open cmd (administrator)
+>net view \\192.168.10.7
+
+C. Using NMAP in cmd.
+>nmap -sU -p 161 169.38.89.3
+
+Practical No. 05 – Implement Password Cracking
+
+1. Install Cain and Abel software
+
+2. After installation go to cracker
+
+3. Select MD5 Hashes
+
+4. Click Hash Calculator
+
+5. Now write any text (write a three- or four-letter word) and click on calculate.
+
+6. Copy MD5 hash value (ciphered text) then click cancel.
+
+7. Click on plus “+” then paste the copied hash value then click OK.
+
+8. Right click on the added hash value in the table and select Brute force Attack. 
+
+9. Then select any predefined value from list and click start.
+
+10. After completion of attack, we can see plaintext.
+
+
+
+
+
+Practical No. 06 - Perform IP Scanning
+
+1. Using Advanced IP Scanning
+
+Step 1: Install and open Advanced IP Scanner
+
+Step 2: type IP address (192.168.0.90-110)
+
+Step 3: click on scan.
+
+
+2. Using Angry IP scanning
+
+Step1: Install and open Angry IP scanner.
+
+Step 2: Set the Ip Range and start the scan.
+
+
+3. Using Super Scan
+
+Step1: Download, Install, and Open Super scan. 
+
+Step 2: Set hostname: 192.168.0.226
+
+Set Start IP as 192.168.0.226
+
+Set end IP as 192.168.0.254
+
+Step 3: Disable the window defender.
+
+Step 4: click start and view html report.  
+
+
+
+
+
+Practical No. 07 – Perform Network Mapping
+
+Download LAN State Procreate map.
+
+
+
+
+
+Practical No. 08 – Perform Brute force Attack.
+
+1. Install Cain and Abel software
+
+2. After installation go to cracker
+
+3. Select MD5 Hashes
+
+4. Click Hash Calculator
+
+5. Now write any text (write a three- or four-letter word) and click on calculate.
+
+6. Copy MD5 hash value (ciphered text) then click cancel.
+
+7. Click on plus “+” then paste the copied hash value then click OK.
+
+8. Right click on the added hash value in the table and select Brute force Attack. 
+
+9. Then select any predefined value from list and click start.
+
+10. After completion of attack, we can see plaintext.
