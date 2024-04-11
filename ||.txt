@@ -62,6 +62,10 @@ Step 2: Check network status of the machine
 
 Step 3: Check network status of the machine
 >netstat -aon
+(netstat: Invokes the network statistics utility.
+-a: Displays all connections and listening ports.
+-o: Shows the owning process ID.
+-n: Outputs addresses and port numbers in numerical form.)
 
 Step 4: Check complete system information of the machine.
 >systeminfo
